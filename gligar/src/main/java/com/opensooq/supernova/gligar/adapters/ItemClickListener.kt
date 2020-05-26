@@ -5,5 +5,5 @@ package com.opensooq.supernova.gligar.adapters
  */
 
 internal interface ItemClickListener {
-    fun onItemClicked(position : Int)
+    fun onItemClicked(position: Int)
 }

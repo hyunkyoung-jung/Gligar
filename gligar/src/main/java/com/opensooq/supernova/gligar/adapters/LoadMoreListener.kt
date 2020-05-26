@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by Hani AlMomani on 28,November,2019
  */
 
-internal class LoadMoreListener(layoutManager: GridLayoutManager) : RecyclerView.OnScrollListener() {
-
+internal class LoadMoreListener(layoutManager: GridLayoutManager) :
+    RecyclerView.OnScrollListener() {
     private var visibleThreshold = 5
     private lateinit var mOnLoadMoreListener: OnLoadMoreListener
     private var isLoading: Boolean = false
@@ -21,10 +21,9 @@ internal class LoadMoreListener(layoutManager: GridLayoutManager) : RecyclerView
         isLoading = false
     }
 
-    internal fun setFinished(finished:Boolean= true) {
+    internal fun setFinished(finished: Boolean = true) {
         isFinish = finished
     }
-
 
     internal fun setOnLoadMoreListener(mOnLoadMoreListener: OnLoadMoreListener) {
         this.mOnLoadMoreListener = mOnLoadMoreListener
@@ -46,7 +45,6 @@ internal class LoadMoreListener(layoutManager: GridLayoutManager) : RecyclerView
             mOnLoadMoreListener.onLoadMore()
             isLoading = true
         }
-
     }
 
     interface OnLoadMoreListener {

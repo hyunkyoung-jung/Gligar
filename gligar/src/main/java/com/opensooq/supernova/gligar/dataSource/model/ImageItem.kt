@@ -1,4 +1,4 @@
-package com.opensooq.OpenSooq.ui.imagePicker.model
+package com.opensooq.supernova.gligar.dataSource.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

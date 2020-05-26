@@ -1,5 +1,6 @@
 package com.opensooq.supernova.gligar.adapters
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +10,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.opensooq.OpenSooq.ui.imagePicker.model.ImageItem
-import com.opensooq.OpenSooq.ui.imagePicker.model.ImageSource
+import com.opensooq.supernova.gligar.dataSource.model.ImageItem
+import com.opensooq.supernova.gligar.dataSource.model.ImageSource
 import com.opensooq.supernova.gligar.R
-
 
 /**
  * Created by Hani AlMomani on 24,April,2019
  */
-
-internal class ImagesAdapter(var clickListener: ItemClickListener) :
+internal class ImagesAdapter(private var clickListener: ItemClickListener) :
     RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
     var images = arrayListOf<ImageItem>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder =
@@ -38,7 +37,7 @@ internal class ImagesAdapter(var clickListener: ItemClickListener) :
         holder.itemView.setOnClickListener { clickListener.onItemClicked(position) }
         val data = images[position]
 
-        if (data.source== ImageSource.GALLERY) {
+        if (data.source == ImageSource.GALLERY) {
             holder.imgView.visibility = View.VISIBLE
             holder.captureView.visibility = View.GONE
             if (data.selected > 0) {
@@ -57,9 +56,16 @@ internal class ImagesAdapter(var clickListener: ItemClickListener) :
                 .transition(DrawableTransitionOptions().crossFade()).into(holder.img)
             return
         }
-        if (data.source== ImageSource.CAMERA) {
+        if (data.source == ImageSource.CAMERA) {
             holder.imgView.visibility = View.GONE
             holder.captureView.visibility = View.VISIBLE
+            val captureString = holder.itemView.context.getString(R.string.capture_new_image)
+            holder.vText.visibility =
+                if (TextUtils.isEmpty(captureString)) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
         }
     }
 
@@ -69,5 +75,6 @@ internal class ImagesAdapter(var clickListener: ItemClickListener) :
         val imgView: View = itemView.findViewById(R.id.image_view)
         val captureView: View = itemView.findViewById(R.id.capture_view)
         val img: ImageView = itemView.findViewById(R.id.img_image)
+        val vText: TextView = itemView.findViewById(R.id.v_text)
     }
 }

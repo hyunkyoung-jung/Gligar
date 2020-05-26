@@ -27,23 +27,21 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
-import com.opensooq.OpenSooq.ui.imagePicker.model.AlbumItem
-import com.opensooq.OpenSooq.ui.imagePicker.model.ImageItem
 import com.opensooq.supernova.gligar.GligarPicker.Companion.IMAGES_RESULT
 import com.opensooq.supernova.gligar.R
 import com.opensooq.supernova.gligar.adapters.AlbumsAdapter
 import com.opensooq.supernova.gligar.adapters.ImagesAdapter
 import com.opensooq.supernova.gligar.adapters.ItemClickListener
 import com.opensooq.supernova.gligar.adapters.LoadMoreListener
+import com.opensooq.supernova.gligar.dataSource.model.AlbumItem
+import com.opensooq.supernova.gligar.dataSource.model.ImageItem
 import com.opensooq.supernova.gligar.utils.PAGE_SIZE
 import com.opensooq.supernova.gligar.utils.createTempImageFile
 import java.io.File
 
-
 /**
  * Created by Hani AlMomani on 24,September,2019
  */
-
 
 internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoadMoreListener,
     ItemClickListener {
@@ -95,7 +93,6 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
     private lateinit var changeAlbum: View
     private lateinit var rootView: View
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_picker_gligar)
@@ -108,10 +105,10 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
         changeAlbum = findViewById(R.id._change_album)
         rootView = findViewById(R.id._v_rootView)
 
+        mainViewModel = ViewModelProvider(
+            this, SavedStateViewModelFactory(application, this)
+        ).get(PickerViewModel::class.java)
 
-        mainViewModel = ViewModelProvider(this, SavedStateViewModelFactory(application, this)).get(
-            PickerViewModel::class.java
-        )
         mainViewModel.init(contentResolver)
         if (savedInstanceState != null) {
             isSaveState = true
@@ -221,7 +218,6 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
         albumsSpinner.setSelection(mainViewModel.mCurrentSelectedAlbum, false)
         albumsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(
@@ -261,7 +257,6 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
     }
 
     private fun observe() {
-
         mainViewModel.mDirectCamera.observe(this, Observer {
             forceCamera = it
         })
@@ -280,7 +275,7 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
         })
 
         mainViewModel.mDoneEnabled.observe(this, Observer {
-            setDoneVisibilty(it)
+            setDoneVisibility(it)
         })
 
         mainViewModel.showOverLimit.observe(this, Observer {
@@ -301,7 +296,7 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
             loadMoreListener?.setFinished()
         }
 
-        var lastPos = mImagesAdapter?.images?.size ?: 0
+        val lastPos = mImagesAdapter?.images?.size ?: 0
         if (isFirstPage) {
             mImagesAdapter?.images = it
             mImagesAdapter?.notifyDataSetChanged()
@@ -316,7 +311,7 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
         }
     }
 
-    private fun setDoneVisibilty(visible: Boolean) {
+    private fun setDoneVisibility(visible: Boolean) {
         icDone.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
@@ -342,7 +337,7 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
             when (requestCode) {
                 REQUEST_CODE_CAMERA_IMAGE -> {
                     mainViewModel.addCameraItem(mImagesAdapter?.images)
-                    setDoneVisibilty(true)
+                    setDoneVisibility(true)
                 }
             }
         }
@@ -408,5 +403,4 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
         }
         super.onSaveInstanceState(outState)
     }
-
 }

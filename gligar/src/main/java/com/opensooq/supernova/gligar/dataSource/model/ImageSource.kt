@@ -1,4 +1,4 @@
-package com.opensooq.OpenSooq.ui.imagePicker.model
+package com.opensooq.supernova.gligar.dataSource.model
 
 /**
  * Created by Hani AlMomani on 23,April,2019

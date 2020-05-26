@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.opensooq.OpenSooq.ui.imagePicker.model.AlbumItem
-import com.opensooq.OpenSooq.ui.imagePicker.model.ImageItem
-import com.opensooq.OpenSooq.ui.imagePicker.model.ImageSource
 import com.opensooq.supernova.gligar.dataSource.ImagesDataSource
+import com.opensooq.supernova.gligar.dataSource.model.AlbumItem
+import com.opensooq.supernova.gligar.dataSource.model.ImageItem
+import com.opensooq.supernova.gligar.dataSource.model.ImageSource
 import com.opensooq.supernova.gligar.ui.ImagePickerActivity.Companion.EXTRA_LIMIT
 import com.opensooq.supernova.gligar.utils.*
 import kotlinx.coroutines.Dispatchers
@@ -20,10 +20,7 @@ import kotlinx.coroutines.withContext
  * Created by Hani AlMomani on 24,September,2019
  */
 
-
 internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
-
-
     internal fun init(contentResolver: ContentResolver) {
         this.contentResolver = contentResolver
         this.mImageDataSource = ImagesDataSource(this.contentResolver)
@@ -63,7 +60,6 @@ internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) :
         mDirectCamera.value = extras.getBoolean(ImagePickerActivity.EXTRA_CAMERA_DIRECT, false)
     }
 
-
     internal fun loadAlbums() {
         if (!mAlbums.value.isNullOrEmpty()) {
             return
@@ -77,7 +73,6 @@ internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) :
 
     internal fun loadMoreImages() {
         loadImages(true)
-
     }
 
     private fun loadImages(isLoadMore: Boolean = false) {
@@ -99,7 +94,6 @@ internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) :
         mImageDataSource.loadAlbumImages(mSelectedAlbum, mPage)
     }
 
-
     private suspend fun getAlbums() = withContext(Dispatchers.Default) {
         mImageDataSource.loadAlbums()
     }
@@ -114,7 +108,6 @@ internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) :
         adapterItems?.add(1, imageItem)
         mNotifyInsert.value = 1
     }
-
 
     internal fun setImageSelection(position: Int, adapterImageItem: ArrayList<ImageItem>?) {
         if (adapterImageItem.isNullOrEmpty()) {
@@ -149,12 +142,10 @@ internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) :
         mDoneEnabled.value = getCurrentSelection() > 0
     }
 
-
     private fun getCurrentSelectionCountForCamera(): Int {
         mCurrentSelection++
         return mCurrentSelection
     }
-
 
     internal fun getSelectedPaths(): Array<String> {
         val sortedList = mSelectedList.values.sortedWith(compareByDescending { it.selected })
@@ -190,7 +181,6 @@ internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) :
         savedStateHandle.set(CURRENT_SELECTION, mCurrentSelection)
         savedStateHandle.set(LIMIT, mLimit)
         savedStateHandle.set(DISABLE_CAMERA, mCameraCisabled)
-
     }
 
     internal fun loadSaveState() {
@@ -205,5 +195,4 @@ internal class PickerViewModel(private val savedStateHandle: SavedStateHandle) :
         mLimit = savedStateHandle.get(LIMIT) ?: 0
         mCameraCisabled = savedStateHandle.get(DISABLE_CAMERA) ?: false
     }
-
 }

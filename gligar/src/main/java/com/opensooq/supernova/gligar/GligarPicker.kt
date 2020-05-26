@@ -13,9 +13,7 @@ import java.lang.IllegalStateException
  * Created by Hani AlMomani on 30,November,2019
  */
 
-
 class GligarPicker {
-
     companion object {
         const val IMAGES_RESULT = "images"
     }
@@ -27,7 +25,6 @@ class GligarPicker {
     private var disableCamera: Boolean = false
     private var cameraDirect: Boolean = false
 
-
     fun requestCode(requestCode: Int) = apply { this.requestCode = requestCode }
     fun limit(limit: Int) = apply { this.limit = limit }
     fun disableCamera(disableCamera: Boolean) = apply { this.disableCamera = disableCamera }
@@ -35,9 +32,8 @@ class GligarPicker {
     fun withActivity(activity: Activity) = apply { this.withActivity = activity }
     fun withFragment(fragment: Fragment) = apply { this.withFragment = fragment }
 
-
     fun show() {
-        if(withActivity == null && withFragment ==null){
+        if (withActivity == null && withFragment == null) {
             throw IllegalStateException("Activity or fragment should be passed, use withActivity(activity) or withFragment(fragment) to set any.")
         }
 
@@ -48,11 +44,10 @@ class GligarPicker {
             intent.putExtra(EXTRA_DISABLE_CAMERA, disableCamera)
         }
 
-        if(withActivity!=null){
-            startActivityForResult(withActivity!!,requestCode,intent)
-        }else{
-            startActivityForResult(withFragment!!,requestCode,intent)
+        if (withActivity != null) {
+            startActivityForResult(withActivity!!, requestCode, intent)
+        } else {
+            startActivityForResult(withFragment!!, requestCode, intent)
         }
-
     }
 }

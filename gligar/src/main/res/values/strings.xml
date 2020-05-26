@@ -5,5 +5,4 @@
     <string name="change_album_text">Change Album</string>
     <string name="capture_new_image">Capture new image</string>
     <string name="over_limit_msg">You have exceeded Images limit</string>
-
 </resources>

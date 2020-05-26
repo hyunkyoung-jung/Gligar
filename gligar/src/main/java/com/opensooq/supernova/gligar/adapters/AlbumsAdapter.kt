@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.opensooq.OpenSooq.ui.imagePicker.model.AlbumItem
 import com.opensooq.supernova.gligar.R
+import com.opensooq.supernova.gligar.dataSource.model.AlbumItem
 
 /**
  * Created by Hani AlMomani on 24,Sep,2019
  */
 
-internal class AlbumsAdapter(var albumItems: List<AlbumItem>, context: Context) : ArrayAdapter<AlbumItem>(context, android.R.layout.simple_list_item_1, albumItems) {
+internal class AlbumsAdapter(albumItems: List<AlbumItem>, context: Context) :
+    ArrayAdapter<AlbumItem>(context, android.R.layout.simple_list_item_1, albumItems) {
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getDropDownView(position: Int, view: View?, parent: ViewGroup): View {
@@ -49,7 +50,6 @@ internal class AlbumsAdapter(var albumItems: List<AlbumItem>, context: Context) 
         }
         return convertView!!
     }
-
 
     internal class ViewHolderView(view: View) {
         var tvLabel: TextView? = null

@@ -3,43 +3,37 @@ package com.opensooq.supernova.gligar.dataSource
 import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore
-import androidx.paging.PositionalDataSource
-import com.opensooq.OpenSooq.ui.imagePicker.model.AlbumItem
-import com.opensooq.OpenSooq.ui.imagePicker.model.ImageItem
-import com.opensooq.OpenSooq.ui.imagePicker.model.ImageSource
+import com.opensooq.supernova.gligar.dataSource.model.AlbumItem
+import com.opensooq.supernova.gligar.dataSource.model.ImageItem
+import com.opensooq.supernova.gligar.dataSource.model.ImageSource
 import com.opensooq.supernova.gligar.utils.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import java.lang.Exception
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by Hani AlMomani on 24,September,2019
  */
 
-
-internal class ImagesDataSource(private val contentResolver: ContentResolver){
+internal class ImagesDataSource(private val contentResolver: ContentResolver) {
 
     fun loadAlbums(): ArrayList<AlbumItem> {
         val albumCursor = contentResolver.query(
             cursorUri,
-            arrayOf(DISPLAY_NAME_COLUMN,MediaStore.Images.ImageColumns.BUCKET_ID),
+            arrayOf(DISPLAY_NAME_COLUMN, MediaStore.Images.ImageColumns.BUCKET_ID),
             null,
             null,
             ORDER_BY
         )
         val list = arrayListOf<AlbumItem>()
         try {
-            list.add(AlbumItem("All", true,"0"))
+            list.add(AlbumItem("All", true, "0"))
             if (albumCursor == null) {
                 return list
             }
             albumCursor.doWhile {
-                val bucketId = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_ID))
-                val name = albumCursor.getString(albumCursor.getColumnIndex(DISPLAY_NAME_COLUMN)) ?: bucketId
-                var albumItem = AlbumItem(name, false, bucketId)
+                val bucketId =
+                    albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_ID))
+                val name = albumCursor.getString(albumCursor.getColumnIndex(DISPLAY_NAME_COLUMN))
+                    ?: bucketId
+                val albumItem = AlbumItem(name, false, bucketId)
                 if (!list.contains(albumItem)) {
                     list.add(albumItem)
                 }
