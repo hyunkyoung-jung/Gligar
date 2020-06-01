@@ -145,7 +145,7 @@ internal class ImagePickerActivity : AppCompatActivity(), LoadMoreListener.OnLoa
                 photoFile!!
             )
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myPhotoFileUri)
-            cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             startActivityForResult(
                 Intent.createChooser(cameraIntent, ""),
                 REQUEST_CODE_CAMERA_IMAGE
